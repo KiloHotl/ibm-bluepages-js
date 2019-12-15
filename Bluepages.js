@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2019 International Business Machines Corporation and others. All Rights Reserved.
- * The accompanying program is provided under the terms of this IBM public license ("agreement").
+ * The accompanying program is provided under the terms of the IBM public license ("agreement").
  * Written by Andres Romero <aromeroh@cr.ibm.com>, August 2019.
  * Contributors: Rod Anami <rod.anami@br.ibm.com>
 */
@@ -26,18 +26,19 @@ async function bluepagesGetEmployee(W3ID) {
 	}
 }
 
-async function bluepagesGetMgrInCountryEmployees(W3ID) {
-	try {
-		const dn = await getDnByW3ID(W3ID);
-		const res = await fetch(urls.api + `/manager=${dn}.list/byjson?mail`).then(res => res.json());
-		const { entry } = res.search;
+// DEPRECATED FUNCTION
+// async function bluepagesGetMgrInCountryEmployees(W3ID) {
+// 	try {
+// 		const dn = await getDnByW3ID(W3ID);
+// 		const res = await fetch(urls.api + `/manager=${dn}.list/byjson?mail`).then(res => res.json());
+// 		const { entry } = res.search;
 
-		return entry.map(({attribute}) => attribute[0].value[0]); // employee email
+// 		return entry.map(({attribute}) => attribute[0].value[0]); // employee email
 
-	} catch (error) {
-		return error;
-	}
-}
+// 	} catch (error) {
+// 		return error;
+// 	}
+// }
 
 function getAttrValue(attrName, employee) {
 	const attribute = xpath.select(`//attr[@name='${attrName}']/value`, employee);
@@ -180,16 +181,16 @@ async function getManagerUIDByEmployeeW3ID(W3ID) {
 	return managerUid;
 }
 
-/**
-* @param {String} W3ID
-* @returns {Array<Object>}
-*/
-async function getManagerInCountryEmployees(managerW3ID) {
-	const employees = await bluepagesGetMgrInCountryEmployees(managerW3ID);
-	const managerEmployees = Promise.all(employees.map(async (e) => await getEmployeeInfoByW3ID(e)));
+// /** DEPRECATED FUNCTION
+// * @param {String} W3ID
+// * @returns {Array<Object>}
+// */
+// async function getManagerInCountryEmployees(managerW3ID) {
+// 	const employees = await bluepagesGetMgrInCountryEmployees(managerW3ID);
+// 	const managerEmployees = Promise.all(employees.map(async (e) => await getEmployeeInfoByW3ID(e)));
 
-	return managerEmployees;
-}
+// 	return managerEmployees;
+// }
 
 /**
 * @param {String} W3ID
@@ -344,7 +345,7 @@ module.exports = {
 	getPrimaryUserIdByW3ID,
 	getUIDByW3ID,
 	getManagerUIDByEmployeeW3ID,
-	getManagerInCountryEmployees,
+	// getManagerInCountryEmployees,
 	getEmployeeLocationByW3ID,
 	getEmployeeMobileByW3ID,
 	getPhoneNumberByW3ID,
