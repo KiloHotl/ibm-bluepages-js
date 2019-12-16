@@ -21,7 +21,6 @@ $ npm install ibm-bluepages-js
 ```
 
 <h3> Uninstall </h3>
-To uninstall ibm-bluepages-js from your system, use the npm uninstall command:
 
 ```shell
 $ npm uninstall ibm-bluepages-js
