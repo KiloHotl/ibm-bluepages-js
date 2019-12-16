@@ -3,7 +3,7 @@
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/aromerohcr/ibm-bluepages-js">
 <img alt="npm" src="https://img.shields.io/npm/dm/ibm-bluepages-js">
 <img alt="NPM" src="https://img.shields.io/npm/l/ibm-bluepages-js">
-<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/aromerohcr/ibm-bluepages-js?color=green">
+<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/aromerohcr/ibm-bluepages-js">
 
 <p> This module provides a set of tools to help <b>IBM</b> Developers working on internal projects to authenticate and access directory data available on <b>IBM Bluepages</b> using Javascript Async/Await functions (promises).</p>
 
@@ -33,7 +33,7 @@ $ npm uninstall ibm-bluepages-js
   * Added new function: 
     * `getEmployeeMobileByW3ID(W3ID)`
 * `2.0.9`
-  * Removed old XML dependencies, functions are now implemented to work fully on JSON. (This change is minor and should not affect any exisintg code implementations)
+  * Removed old XML dependencies, functions are now implemented to work fully on JSON. (This change is minor and should not affect any exisintg code implementations.
   * Added new functions: 
     * `getDirectReportsByW3ID(W3ID)`
     * `getDirectAndIndirectReportsByW3ID(W3ID)`
