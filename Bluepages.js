@@ -8,9 +8,7 @@ const fetch = require('node-fetch');
 const LDAP = require('ldapjs');
 
 const JsonUtils = require('./utils/JsonUtils');
-
 const urls = require('./URLs');
-const NOT_AVAILABLE = 'N/A';
 
 async function bluepagesGetEmployee(W3ID) {
 	return fetch(urls.api + `?ibmperson/mail=${W3ID}.list/byjson`)
@@ -115,7 +113,6 @@ async function getPrimaryUserIdByW3ID(W3ID) {
 */
 async function getUIDByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-
 	return employee.uid;
 }
 
@@ -155,7 +152,6 @@ async function getEmployeeLocationByW3ID(W3ID) {
 */
 async function getPhoneNumberByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-
 	return employee.telephonenumber;
 }
 
@@ -165,7 +161,6 @@ async function getPhoneNumberByW3ID(W3ID) {
 */
 async function getJobFunctionByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-
 	return employee.jobresponsibilities;
 }
 
@@ -175,7 +170,6 @@ async function getJobFunctionByW3ID(W3ID) {
 */
 async function getEmployeeMobileByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-
 	return employee.mobile;
 }
 

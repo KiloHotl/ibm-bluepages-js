@@ -1,0 +1,261 @@
+{
+    "search": {
+        "entry": [
+            {
+                "dn": "uid=notarealid,c=na,ou=bluepages,o=ibm.com",
+                "attribute": [
+                    {
+                        "name": "pdif",
+                        "value": [
+                            "1"
+                        ]
+                    },
+                    {
+                        "name": "preferredfirstname",
+                        "value": [
+                            "John"
+                        ]
+                    },
+                    {
+                        "name": "mail",
+                        "value": [
+                            "john.smith@ibm.com"
+                        ]
+                    },
+                    {
+                        "name": "uid",
+                        "value": [
+                            "notarealid"
+                        ]
+                    },
+                    {
+                        "name": "workplaceindicator",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "preferredlastname",
+                        "value": [
+                            "Smith"
+                        ]
+                    },
+                    {
+                        "name": "managerserialnumber",
+                        "value": [
+                            "notarealnumber"
+                        ]
+                    },
+                    {
+                        "name": "worklocation",
+                        "value": [
+                            "workLoc=na,ou=bluepages,o=ibm.com"
+                        ]
+                    },
+                    {
+                        "name": "directoryalias",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "infotelephonenumber",
+                        "value": [
+                            "Ext. ****"
+                        ]
+                    },
+                    {
+                        "name": "notesemail",
+                        "value": [
+                            "CN=Joe Doe/OU=na/O=IBM@IBM"
+                        ]
+                    },
+                    {
+                        "name": "objectclass",
+                        "value": ["na"]
+                    },
+                    {
+                        "name": "employeecountrycode",
+                        "value": [
+                            "notacountrycode"
+                        ]
+                    },
+                    {
+                        "name": "sn",
+                        "value": [
+                            "Doe"
+                        ]
+                    },
+                    {
+                        "name": "hrorganizationcode",
+                        "value": [
+                            "notanorganizationcode"
+                        ]
+                    },
+                    {
+                        "name": "serialnumber",
+                        "value": [
+                            "notanumber"
+                        ]
+                    },
+                    {
+                        "name": "ibmloc",
+                        "value": [
+                            "notalocation"
+                        ]
+                    },
+                    {
+                        "name": "telephonenumber",
+                        "value": [
+                            "notanumber"
+                        ]
+                    },
+                    {
+                        "name": "preferredidentity",
+                        "value": [
+                            "joe.doe@ibm.com"
+                        ]
+                    },
+                    {
+                        "name": "managercountrycode",
+                        "value": [
+                            "notacode"
+                        ]
+                    },
+                    {
+                        "name": "primarynode",
+                        "value": [
+                            "node"
+                        ]
+                    },
+                    {
+                        "name": "jobresponsibilities",
+                        "value": [
+                            "notarealjob"
+                        ]
+                    },
+                    {
+                        "name": "ibmserialnumber",
+                        "value": [
+                            "notanumber"
+                        ]
+                    },
+                    {
+                        "name": "co",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "cn",
+                        "value": [
+                            "Joe Doe"
+                        ]
+                    },
+                    {
+                        "name": "workloc",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "ou",
+                        "value": [
+                            "bluepages"
+                        ]
+                    },
+                    {
+                        "name": "dept",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "entrytype",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "callupname",
+                        "value": [
+                            "Doe, Joe"
+                        ]
+                    },
+                    {
+                        "name": "mobile",
+                        "value": [
+                            "notarealnumber"
+                        ]
+                    },
+                    {
+                        "name": "buildingname",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "ismanager",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "givenname",
+                        "value": [
+                            "Joe"
+                        ]
+                    },
+                    {
+                        "name": "divdept",
+                        "value": [
+                            "dept=na,div=na,ou=bluepages,o=ibm.com"
+                        ]
+                    },
+                    {
+                        "name": "employeetype",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "o",
+                        "value": [
+                            "ibm.com"
+                        ]
+                    },
+                    {
+                        "name": "primaryuserid",
+                        "value": [
+                            "joe.doe"
+                        ]
+                    },
+                    {
+                        "name": "div",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "c",
+                        "value": [
+                            "na"
+                        ]
+                    },
+                    {
+                        "name": "manager",
+                        "value": [
+                            "uid=notarealnumber,c=us,ou=bluepages,o=ibm.com"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "return": {
+            "code": 0,
+            "message": "Success",
+            "count": 1
+        }
+    }
+
+}
