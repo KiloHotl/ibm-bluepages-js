@@ -4,7 +4,8 @@
   "description": "A Nodejs module to interact with the IBM Bluepages API.",
   "main": "Bluepages.js",
   "scripts": {
-    "test": "jest"
+    "test:int": "jest tests/Integration.test.js",
+    "test:unit": "jest tests/Unit.test.js"
   },
   "repository": {
     "type": "git",
@@ -30,12 +31,10 @@
   "dependencies": {
     "bunyan": "^1.8.12",
     "ldapjs": "^2.0.0-pre.3",
-    "node-fetch": "^2.6.0",
-    "xml-js": "^1.6.11",
-    "xmldom": "^0.1.27",
-    "xpath": "^0.0.27"
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
-    "jest": "^24.8.0"
+    "jest": "^24.8.0",
+    "nock": "^11.7.0"
   }
 }

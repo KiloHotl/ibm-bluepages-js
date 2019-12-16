@@ -4,83 +4,36 @@
  * Written by Andres Romero <aromeroh@cr.ibm.com>, August 2019.
  * Contributors: Rod Anami <rod.anami@br.ibm.com>
 */
-
-const DOMParser = require('xmldom').DOMParser;
 const fetch = require('node-fetch');
 const LDAP = require('ldapjs');
-const XMLParser = new DOMParser();
-const xpath = require('xpath');
+
+const JsonUtils = require('./utils/JsonUtils');
 
 const urls = require('./URLs');
 const NOT_AVAILABLE = 'N/A';
 
 async function bluepagesGetEmployee(W3ID) {
-	try {
-		const res = await fetch(urls.api + `/mail=${W3ID}.list/byxml`).then(res => res.text());
-		const employee = XMLParser.parseFromString(res);
-
-		return employee; // API XML response
-
-	} catch (error) {
-		return error;
-	}
+	return fetch(urls.api + `?ibmperson/mail=${W3ID}.list/byjson`)
+		.then(res => res.json())
+		.then(json => JsonUtils.objectiseOne(json))
+		.catch(error => console.error(`Error: ${error}`));
 }
 
-// DEPRECATED FUNCTION
-// async function bluepagesGetMgrInCountryEmployees(W3ID) {
-// 	try {
-// 		const dn = await getDnByW3ID(W3ID);
-// 		const res = await fetch(urls.api + `/manager=${dn}.list/byjson?mail`).then(res => res.json());
-// 		const { entry } = res.search;
-
-// 		return entry.map(({attribute}) => attribute[0].value[0]); // employee email
-
-// 	} catch (error) {
-// 		return error;
-// 	}
-// }
-
-function getAttrValue(attrName, employee) {
-	const attribute = xpath.select(`//attr[@name='${attrName}']/value`, employee);
-
-	if (attribute.length > 0) {
-		return attribute[0].firstChild.data;
-	} else {
-		return NOT_AVAILABLE;
-	}
+async function bluePagesReportsQueryByDn(dn) {
+	return fetch(urls.api + `?ibmperson/manager=${dn}.list/byjson`)
+	  .then(res => res.json())
+	  .catch(error => console.error(`Error: ${error}`));
 }
 
 async function getDnByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-	const nodes = xpath.select('//directory-entries/entry', employee);
 
-	if (nodes.length > 0) {
-		return nodes[0].getAttribute('dn');
+	if (employee !== null) {
+		const { uid, c, ou, o } = employee;
+		return `uid=${uid},c=${c},ou=${ou},o=${o}`;
 	} else {
-		return null;
+		return null; // Not longer employee / not found
 	}
-}
-
-async function bluePagesReportsQueryByDn(dn) {
-  return fetch(urls.api + `/manager=${dn}.list/byjson`)
-    .then(res => res.text())
-    .then(str => JSON.parse(str))
-    .catch(error => console.error(`Error: ${error}`));
-}
-
-/* Converts from the LDAP search json form to more idiomatic objects */
-function objectise(json) {
-  const arrayOfAttributes = json.search.entry.map(entry => entry.attribute);
-
-  // A bit of magic which reduces type safety (we don't know if values will be arrays or not) but increases convenience (since almost all values are *not* arrays)
-  const stripArrays = value => (value.length === 1 ? value[0] : value);
-  const reducer = (acc, val) => {
-    acc[val.name] = stripArrays(val.value);
-    return acc;
-  };
-  const objects = arrayOfAttributes.map(array => array.reduce(reducer, {}));
-
-  return objects;
 }
 
 /**
@@ -140,7 +93,7 @@ async function authenticate(W3ID, password) {
 */
 async function getNameByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-	const name = getAttrValue('givenname', employee) + ' ' + getAttrValue('sn', employee);
+	const name = employee.cn;
 
 	return name;
 }
@@ -151,7 +104,7 @@ async function getNameByW3ID(W3ID) {
 */
 async function getPrimaryUserIdByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-	const userId = getAttrValue('primaryuserid', employee);
+	const userId = employee.primaryuserid;
 
 	return userId.toLowerCase(); // e.g: aromeroh, joe.doe, etc ...
 }
@@ -162,9 +115,8 @@ async function getPrimaryUserIdByW3ID(W3ID) {
 */
 async function getUIDByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-	const uid = getAttrValue('uid', employee);
 
-	return uid;
+	return employee.uid;
 }
 
 /**
@@ -173,24 +125,13 @@ async function getUIDByW3ID(W3ID) {
 */
 async function getManagerUIDByEmployeeW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-	const serialNumber = getAttrValue('managerserialnumber', employee);
-	const countryCode = getAttrValue('managercountrycode', employee);
+	const serialNumber = employee.managerserialnumber;
+	const countryCode = employee.managercountrycode;
 
 	const managerUid = serialNumber + countryCode;
 
 	return managerUid;
 }
-
-// /** DEPRECATED FUNCTION
-// * @param {String} W3ID
-// * @returns {Array<Object>}
-// */
-// async function getManagerInCountryEmployees(managerW3ID) {
-// 	const employees = await bluepagesGetMgrInCountryEmployees(managerW3ID);
-// 	const managerEmployees = Promise.all(employees.map(async (e) => await getEmployeeInfoByW3ID(e)));
-
-// 	return managerEmployees;
-// }
 
 /**
 * @param {String} W3ID
@@ -200,11 +141,11 @@ async function getEmployeeLocationByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
 
 	return {
-		buildingName: getAttrValue('buildingname', employee),
-		country: getAttrValue('co', employee),
-		countryAlphaCode: getAttrValue('c', employee),
-		workLocation: getAttrValue('workloc', employee),
-		employeeCountryCode: getAttrValue('employeecountrycode', employee)
+		buildingName: employee.buildingname,
+		country: employee.co,
+		countryAlphaCode: employee.c,
+		workLocation: employee.workloc,
+		employeeCountryCode: employee.employeecountrycode
 	};
 }
 
@@ -214,9 +155,8 @@ async function getEmployeeLocationByW3ID(W3ID) {
 */
 async function getPhoneNumberByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-	const phoneNumber = getAttrValue('telephonenumber', employee);
 
-	return phoneNumber;
+	return employee.telephonenumber;
 }
 
 /**
@@ -225,9 +165,8 @@ async function getPhoneNumberByW3ID(W3ID) {
 */
 async function getJobFunctionByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-	const jobFunction = getAttrValue('jobresponsibilities', employee);
 
-	return jobFunction;
+	return employee.jobresponsibilities;
 }
 
 /**
@@ -236,9 +175,8 @@ async function getJobFunctionByW3ID(W3ID) {
 */
 async function getEmployeeMobileByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
-	const mobile = getAttrValue('mobile', employee);
 
-	return mobile;
+	return employee.mobile;
 }
 
 /**
@@ -257,32 +195,18 @@ async function getEmployeeInfoByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployee(W3ID);
 
 	return {
-		name: `${getAttrValue('givenname', employee)} ${getAttrValue('sn', employee)}`,
-		email : getAttrValue('mail', employee),
+		name: employee.cn,
+		mail: employee.mail,
 		photo: urls.photo + `/${W3ID}?def=avatar`,
-		jobFunction: getAttrValue('jobresponsibilities', employee),
-		telephoneNumber: getAttrValue('telephonenumber', employee),
-		buildingName: getAttrValue('buildingname', employee)
+		jobFunction: employee.jobresponsibilities,
+		telephoneNumber: employee.telephonenumber,
+		buildingName: employee.buildingname
 	};
-}
-
-function flatten(items) {
-  const flat = [];
-
-  items.forEach(item => {
-    if (Array.isArray(item)) {
-      flat.push(...flatten(item));
-    } else {
-      flat.push(item);
-    }
-  });
-
-  return flat;
 }
 
 /**
 * @param {String} W3ID
-* @returns {Promise<string>}
+* @returns {Promise<Array<Object>>}
 */
 async function getDirectReportsByW3ID(W3ID) {
 	const dn = await getDnByW3ID(W3ID);
@@ -291,7 +215,7 @@ async function getDirectReportsByW3ID(W3ID) {
 
 async function getDirectReportsByDn(dn) {
   const allReports = await bluePagesReportsQueryByDn(dn);
-  const json = objectise(allReports);
+  const json = JsonUtils.objectiseMany(allReports);
 
   // Extract just a few fields of interest
   return json.map(person => {
@@ -304,6 +228,11 @@ async function getDirectReportsByDn(dn) {
     };
   });
 }
+
+/**
+* @param {String} W3ID
+* @returns {Promise<Array<Object>>}
+*/
 async function getDirectAndIndirectReportsByW3ID(W3ID) {
   const dn = await getDnByW3ID(W3ID);
   return await getDirectAndIndirectReportsByDn(dn);
@@ -316,7 +245,7 @@ async function getDirectAndIndirectReportsByDn(dn) {
   const recurser = async person =>
     [person].concat(await getDirectAndIndirectReportsByDn(person.dn));
   const recursed = await Promise.all(directReports.map(recurser));
-  const flattened = flatten(recursed);
+  const flattened = JsonUtils.flatten(recursed);
   return flattened;
 }
 
@@ -341,11 +270,11 @@ async function employeeExists(W3ID) {
 
 module.exports = {
 	authenticate,
+	bluepagesGetEmployee,
 	getNameByW3ID,
 	getPrimaryUserIdByW3ID,
 	getUIDByW3ID,
 	getManagerUIDByEmployeeW3ID,
-	// getManagerInCountryEmployees,
 	getEmployeeLocationByW3ID,
 	getEmployeeMobileByW3ID,
 	getPhoneNumberByW3ID,
