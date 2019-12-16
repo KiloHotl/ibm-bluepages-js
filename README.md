@@ -2,7 +2,6 @@
 <img alt="David" src="https://img.shields.io/david/aromerohcr/ibm-bluepages-js">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/aromerohcr/ibm-bluepages-js">
 <img alt="npm" src="https://img.shields.io/npm/dm/ibm-bluepages-js">
-<img alt="GitHub issues" src="https://img.shields.io/github/issues-raw/aromerohcr/ibm-bluepages-js">
 <img alt="NPM" src="https://img.shields.io/npm/l/ibm-bluepages-js">
 <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/aromerohcr/ibm-bluepages-js?color=green">
 
@@ -16,7 +15,6 @@
 <b>Note:</b> Depending on your Windows setup <a href="https://www.npmjs.com/package/windows-build-tools">windows-build-tools</a> may need to be installed first. Also, for MacOS users, you should have xcode-select or entire Xcode App installed.
 
 <h3> Install </h3>
-You may install the package using npm install command:
 
 ```shell
 $ npm install ibm-bluepages-js
@@ -29,24 +27,15 @@ To uninstall ibm-bluepages-js from your system, use the npm uninstall command:
 $ npm uninstall ibm-bluepages-js
 ```
 
-Or just delete the ibm-bluepages-js directory located in node_modules.
+<h3> Change Log </h3>
 
-<h3> Change History </h3>
-
-* `1.2.3`
-  * `Extended getEmployeeLocationByW3ID() to include work location code.`
-* `2.0.0`
-  * `Local functions update, code refactoring and patching.`
-  * `Replaced "user" by "employee" in code for better understanding of the functions.`
-  * `Changed the profile photo endpoint for one that returns .JPG images with better quality.`
-  * `Added new function employeeExists(W3ID) to validate if an employee is still part of IBM.`
-  * `Added new function getManagerInCountryEmployees(W3ID) that allows to return the in country employees of a specific manager.`
-* `2.0.3, 2.0.4 and 2.0.5`
-  * `Documentation corrections.`
-* `2.0.6, 2.0.7 and 2.0.8`
-  * `Fixed the problem caused by DTrace dependency of ldapjs on MacOS Catalina devices.`
-  * `Added new function getEmployeeMobileByW3ID(W3ID).`
-  * `Documentation and other minor fixes.`
+* `2.0.8`
+  * Fixed the problem caused by DTrace dependency of ldapjs on MacOS Catalina devices.
+  * Added new function: getEmployeeMobileByW3ID(W3ID).
+* `2.0.9`
+  * Removed old XML dependencies, functions are now implemented to work fully on JSON. (This change is minor and should not affect any exisintg code implementations)
+  * Added new functions: getDirectReportsByW3ID(W3ID) & getDirectAndIndirectReportsByW3ID(W3ID)
+  * Documentation and other minor fixes.
 
 <h3> Usage </h3>
 
@@ -125,20 +114,21 @@ app.get('/profile', async (req, res) => {
 
 <h3> List of functions available </h3>
 
-* `getNameByW3ID(W3ID)`
-* `getUIDByW3ID(W3ID)`
-* `getPrimaryUserIdByW3ID(W3ID)`
-* `getManagerUIDByEmployeeW3ID(W3ID)`
-* `getManagerInCountryEmployees(managerW3ID)`
+* `authenticate(W3ID, password)`
+* `employeeExists(W3ID)`
+* `getDirectReportsByW3ID(W3ID)`
+* `getDirectAndIndirectReportsByW3ID(W3ID)`
+* `getEmployeeInfoByW3ID(W3ID)`
 * `getEmployeeLocationByW3ID(W3ID)`
 * `getEmployeeMobileByW3ID(W3ID)`
-* `getPhoneNumberByW3ID(W3ID)`
 * `getJobFunctionByW3ID(W3ID)`
+* `getManagerUIDByEmployeeW3ID(W3ID)`
+* `getNameByW3ID(W3ID)`
+* `getPhoneNumberByW3ID(W3ID)`
 * `getPhotoByW3ID(W3ID)`
-* `getEmployeeInfoByW3ID(W3ID)`
-* `authenticate(W3ID, password)`
+* `getPrimaryUserIdByW3ID(W3ID)`
+* `getUIDByW3ID(W3ID)`
 * `isManager(W3ID)`
-* `employeeExists(W3ID)`
 
 <h3> Features that make this module secure </h3>
 <ul>
