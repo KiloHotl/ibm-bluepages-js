@@ -2,13 +2,16 @@
  * Copyright (C) 2019 International Business Machines Corporation and others. All Rights Reserved.
  * The accompanying program is provided under the terms of the IBM public license ("agreement").
  * Written by Andres Romero <aromeroh@cr.ibm.com>, August 2019.
- * Contributors: Rod Anami <rod.anami@br.ibm.com>
+ * Contributors: Rod Anami <rod.anami@br.ibm.com>, Holly Cummins <cumminsh@uk.ibm.com>
 */
 const fetch = require('node-fetch');
 const LDAP = require('ldapjs');
 
 const JsonUtils = require('./utils/JsonUtils');
 const urls = require('./URLs');
+
+const ORG = 'ou=bluepages,o=ibm.com';
+
 
 async function bluepagesGetEmployee(W3ID) {
 	return fetch(urls.api + `?ibmperson/mail=${W3ID}.list/byjson`)
@@ -64,7 +67,7 @@ async function authenticate(W3ID, password) {
 				CLIENT.unbind();
 				resolve(false);
 			} else {
-				CLIENT.search('ou=bluepages,o=ibm.com', opts, function(error, res) {
+				CLIENT.search(ORG, opts, function(error, res) {
 					res.on('searchEntry', function(entry) {
 						if(entry.object){
 							CLIENT.unbind();
@@ -84,6 +87,93 @@ async function authenticate(W3ID, password) {
 		});
 	});
 }
+
+/**
+* @param {String} W3ID
+* @returns {Promise<boolean>}
+*/
+async function ldapGetEmployeeByW3ID(W3ID) {
+	return new Promise((resolve, reject) => {
+		// * Client for connecting to Bluepages LDAPS interface
+		const CLIENT = LDAP.createClient({ url: urls.ldaps });
+		const opts = {
+			filter: '(mail='+W3ID+')',
+			scope: 'sub',
+			attributes: ['cn', 'mail', 'serialNumber', 'employeeType', 'callupName',
+				'department', 'div', 'title', 'employeeCountryCode',
+				'area', 'costCenter', 'divDept', 'manager', 'glTeamLead'],
+			sizeLimit: 1,
+			timeLimit: 30
+		};
+		// Anonymous LDAP binding
+		CLIENT.bind('', '', function(error) {
+		  if (error) {
+		    CLIENT.unbind();
+				reject(err);
+		  } else {
+		    CLIENT.search(ORG, opts, function(err, res) {
+		      res.on('searchEntry', function(entry) {
+		        if(entry.object){
+							CLIENT.unbind();
+							resolve(entry.object);
+						} else {
+							CLIENT.unbind();
+							resolve(null);
+						}
+		      });
+		      res.on('error', function(resErr) {
+		        CLIENT.unbind();
+						reject(resErr);
+		      });
+		    });
+		  }
+		});
+	});
+}
+
+/**
+* @param {String} UID
+* @returns {Promise<boolean>}
+*/
+async function ldapGetEmployeeByUID(UID) {
+	return new Promise((resolve, reject) => {
+		// * Client for connecting to Bluepages LDAPS interface
+		const CLIENT = LDAP.createClient({ url: urls.ldaps });
+		const opts = {
+			filter: '(uid='+UID+')',
+			scope: 'sub',
+			attributes: ['cn', 'mail', 'serialNumber', 'employeeType', 'callupName',
+				'department', 'div', 'title', 'employeeCountryCode',
+				'area', 'costCenter', 'divDept', 'manager', 'glTeamLead'],
+			sizeLimit: 1,
+			timeLimit: 30
+		};
+		// Anonymous LDAP binding
+		CLIENT.bind('', '', function(error) {
+		  if (error) {
+		    CLIENT.unbind();
+				reject(error);
+		  } else {
+		    CLIENT.search(ORG, opts, function(err, res) {
+		      res.on('searchEntry', function(entry) {
+		        if(entry.object){
+							CLIENT.unbind();
+							resolve(entry.object);
+						} else {
+							CLIENT.unbind();
+							resolve(null);
+						}
+		      });
+		      res.on('error', function(resErr) {
+		        CLIENT.unbind();
+						reject(resErr);
+		      });
+		    });
+		  }
+		});
+	});
+}
+
 
 /**
 * @param {String} W3ID
@@ -177,6 +267,20 @@ async function getEmployeeMobileByW3ID(W3ID) {
 * @param {String} W3ID
 * @returns {Promise<string>}
 */
+async function getGlobalManagerUIDByW3ID(W3ID) {
+	const employee = await ldapGetEmployeeByW3ID(W3ID);
+	if (employee.glTeamLead) {
+		const uid = employee.glTeamLead.split(/,/)[0].split(/=/)[1];
+		return uid;
+	} else {
+		return null;
+	}
+}
+
+/**
+* @param {String} W3ID
+* @returns {Promise<string>}
+*/
 async function getPhotoByW3ID(W3ID) {
 	return urls.photo + `/${W3ID}?def=avatar`;
 }
@@ -195,6 +299,26 @@ async function getEmployeeInfoByW3ID(W3ID) {
 		jobFunction: employee.jobresponsibilities,
 		telephoneNumber: employee.telephonenumber,
 		buildingName: employee.buildingname
+	};
+}
+
+/**
+* @param {String} UID
+* @returns {Promise<Object>}
+*/
+async function getEmployeeInfoByUID(UID) {
+	const employee = await ldapGetEmployeeByUID(UID);
+
+	return {
+		name: employee.cn,
+		title: employee.title,
+		contryCode: employee.employeeCountryCode,
+		type: employee.employeeType,
+		division: employee.div,
+		department: employee.dept,
+		callupName: employee.callupName,
+		mail: employee.mail,
+		serialNumber: employee.serialNumber
 	};
 }
 
@@ -265,16 +389,20 @@ async function employeeExists(W3ID) {
 module.exports = {
 	authenticate,
 	bluepagesGetEmployee,
+	ldapGetEmployeeByW3ID,
+	ldapGetEmployeeByUID,
 	getNameByW3ID,
 	getPrimaryUserIdByW3ID,
 	getUIDByW3ID,
 	getManagerUIDByEmployeeW3ID,
+	getGlobalManagerUIDByW3ID,
 	getEmployeeLocationByW3ID,
 	getEmployeeMobileByW3ID,
 	getPhoneNumberByW3ID,
 	getJobFunctionByW3ID,
 	getPhotoByW3ID,
 	getEmployeeInfoByW3ID,
+	getEmployeeInfoByUID,
 	getDirectAndIndirectReportsByW3ID,
 	getDirectReportsByW3ID,
 	isManager,
