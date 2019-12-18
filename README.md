@@ -30,14 +30,22 @@ $ npm uninstall ibm-bluepages-js
 
 * `2.0.8`
   * Fixed the problem caused by DTrace dependency of ldapjs on MacOS Catalina devices.
-  * Added new function: 
+  * Added new function:
     * `getEmployeeMobileByW3ID(W3ID)`
 * `2.0.9`
   * Removed old XML dependencies, functions are now implemented to work fully on JSON. (This change is minor and should not affect any exisintg code implementations.
-  * Added new functions: 
+  * Added new functions:
     * `getDirectReportsByW3ID(W3ID)`
     * `getDirectAndIndirectReportsByW3ID(W3ID)`
   * Documentation and other minor fixes.
+
+  * `2.0.10`
+    * Implemented LDAP calls to IBM ED which brings richer results with slow response time.
+    * Added new functions:
+      * `ldapGetEmployeeByW3ID(W3ID)`
+      * `ldapGetEmployeeByUID(UID)`
+      * `getGlobalManagerUIDByW3ID(W3ID)`
+      * `getEmployeeInfoByUID(UID)`
 
 <h3> Usage </h3>
 
@@ -120,9 +128,11 @@ app.get('/profile', async (req, res) => {
 * `employeeExists(W3ID)`
 * `getDirectReportsByW3ID(W3ID)`
 * `getDirectAndIndirectReportsByW3ID(W3ID)`
+* `getEmployeeInfoByUID(UID)`
 * `getEmployeeInfoByW3ID(W3ID)`
 * `getEmployeeLocationByW3ID(W3ID)`
 * `getEmployeeMobileByW3ID(W3ID)`
+* `getGlobalManagerUIDByW3ID(W3ID)`
 * `getJobFunctionByW3ID(W3ID)`
 * `getManagerUIDByEmployeeW3ID(W3ID)`
 * `getNameByW3ID(W3ID)`
@@ -131,6 +141,9 @@ app.get('/profile', async (req, res) => {
 * `getPrimaryUserIdByW3ID(W3ID)`
 * `getUIDByW3ID(W3ID)`
 * `isManager(W3ID)`
+* `ldapGetEmployeeByUID(UID)`
+* `ldapGetEmployeeByW3ID(W3ID)`
+
 
 <h3> Features that make this module secure </h3>
 <ul>
