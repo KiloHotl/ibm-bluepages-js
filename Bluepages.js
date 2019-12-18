@@ -389,8 +389,6 @@ async function employeeExists(W3ID) {
 module.exports = {
 	authenticate,
 	bluepagesGetEmployee,
-	ldapGetEmployeeByW3ID,
-	ldapGetEmployeeByUID,
 	getNameByW3ID,
 	getPrimaryUserIdByW3ID,
 	getUIDByW3ID,

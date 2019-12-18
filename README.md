@@ -42,8 +42,6 @@ $ npm uninstall ibm-bluepages-js
   * `2.0.10`
     * Implemented LDAP calls to IBM ED which brings richer results with slow response time.
     * Added new functions:
-      * `ldapGetEmployeeByW3ID(W3ID)`
-      * `ldapGetEmployeeByUID(UID)`
       * `getGlobalManagerUIDByW3ID(W3ID)`
       * `getEmployeeInfoByUID(UID)`
 
@@ -141,8 +139,6 @@ app.get('/profile', async (req, res) => {
 * `getPrimaryUserIdByW3ID(W3ID)`
 * `getUIDByW3ID(W3ID)`
 * `isManager(W3ID)`
-* `ldapGetEmployeeByUID(UID)`
-* `ldapGetEmployeeByW3ID(W3ID)`
 
 
 <h3> Features that make this module secure </h3>
