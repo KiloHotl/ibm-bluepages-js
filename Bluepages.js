@@ -12,9 +12,15 @@ const urls = require('./URLs');
 
 const ORG = 'ou=bluepages,o=ibm.com';
 
-
-async function bluepagesGetEmployee(W3ID) {
+async function bluepagesGetEmployeeByW3ID(W3ID) {
 	return fetch(urls.api + `?ibmperson/mail=${W3ID}.list/byjson`)
+		.then(res => res.json())
+		.then(json => JsonUtils.objectiseOne(json))
+		.catch(error => console.error(`Error: ${error}`));
+}
+
+async function bluepagesGetEmployeeByUID(UID) {
+	return fetch(urls.api + `?ibmperson/uid=${UID}.list/byjson`)
 		.then(res => res.json())
 		.then(json => JsonUtils.objectiseOne(json))
 		.catch(error => console.error(`Error: ${error}`));
@@ -22,12 +28,12 @@ async function bluepagesGetEmployee(W3ID) {
 
 async function bluePagesReportsQueryByDn(dn) {
 	return fetch(urls.api + `?ibmperson/manager=${dn}.list/byjson`)
-	  .then(res => res.json())
-	  .catch(error => console.error(`Error: ${error}`));
+		.then(res => res.json())
+		.catch(error => console.error(`Error: ${error}`));
 }
 
 async function getDnByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 
 	if (employee !== null) {
 		const { uid, c, ou, o } = employee;
@@ -92,39 +98,38 @@ async function authenticate(W3ID, password) {
 * @param {String} W3ID
 * @returns {Promise<boolean>}
 */
-async function ldapGetEmployeeByW3ID(W3ID) {
+async function ldapGetEmployeeByW3ID(W3ID, attributes=[]) {
 	return new Promise((resolve, reject) => {
 		// * Client for connecting to Bluepages LDAPS interface
 		const CLIENT = LDAP.createClient({ url: urls.ldaps });
 		const opts = {
 			filter: '(mail='+W3ID+')',
 			scope: 'sub',
-			attributes: ['cn', 'mail', 'serialNumber', 'employeeType', 'callupName',
-				'department', 'div', 'title', 'employeeCountryCode',
-				'area', 'costCenter', 'divDept', 'manager', 'glTeamLead'],
+			attributes: attributes,
 			sizeLimit: 1,
 			timeLimit: 30
 		};
 		// Anonymous LDAP binding
 		CLIENT.bind('', '', function(error) {
 		  if (error) {
-		    CLIENT.unbind();
+		    	CLIENT.unbind();
 				reject(err);
 		  } else {
-		    CLIENT.search(ORG, opts, function(err, res) {
-		      res.on('searchEntry', function(entry) {
-		        if(entry.object){
-							CLIENT.unbind();
-							resolve(entry.object);
-						} else {
-							CLIENT.unbind();
-							resolve(null);
-						}
-		      });
-		      res.on('error', function(resErr) {
-		        CLIENT.unbind();
-						reject(resErr);
-		      });
+		    	CLIENT.search(ORG, opts, function(err, res) {
+				res.on('searchEntry', function(entry) {
+					if(entry.object){
+								CLIENT.unbind();
+						resolve(entry.object);
+					} else {
+						CLIENT.unbind();
+						resolve(null);
+					}
+				});
+
+		      	res.on('error', function(resErr) {
+		        	CLIENT.unbind();
+					reject(resErr);
+		      	});
 		    });
 		  }
 		});
@@ -135,39 +140,38 @@ async function ldapGetEmployeeByW3ID(W3ID) {
 * @param {String} UID
 * @returns {Promise<boolean>}
 */
-async function ldapGetEmployeeByUID(UID) {
+async function ldapGetEmployeeByUID(UID, attributes=[]) {
 	return new Promise((resolve, reject) => {
 		// * Client for connecting to Bluepages LDAPS interface
 		const CLIENT = LDAP.createClient({ url: urls.ldaps });
 		const opts = {
 			filter: '(uid='+UID+')',
 			scope: 'sub',
-			attributes: ['cn', 'mail', 'serialNumber', 'employeeType', 'callupName',
-				'department', 'div', 'title', 'employeeCountryCode',
-				'area', 'costCenter', 'divDept', 'manager', 'glTeamLead'],
+			attributes: attributes,
 			sizeLimit: 1,
 			timeLimit: 30
 		};
 		// Anonymous LDAP binding
 		CLIENT.bind('', '', function(error) {
 		  if (error) {
-		    CLIENT.unbind();
+		    	CLIENT.unbind();
 				reject(error);
 		  } else {
 		    CLIENT.search(ORG, opts, function(err, res) {
-		      res.on('searchEntry', function(entry) {
-		        if(entry.object){
-							CLIENT.unbind();
-							resolve(entry.object);
-						} else {
-							CLIENT.unbind();
-							resolve(null);
-						}
-		      });
-		      res.on('error', function(resErr) {
-		        CLIENT.unbind();
-						reject(resErr);
-		      });
+				res.on('searchEntry', function(entry) {
+					if(entry.object){
+						CLIENT.unbind();
+						resolve(entry.object);
+					} else {
+						CLIENT.unbind();
+						resolve(null);
+					}
+					});
+			  
+		      	res.on('error', function(resErr) {
+		       	 	CLIENT.unbind();
+					reject(resErr);
+		      	});
 		    });
 		  }
 		});
@@ -180,10 +184,8 @@ async function ldapGetEmployeeByUID(UID) {
 * @returns {Promise<string>}
 */
 async function getNameByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
-	const name = employee.cn;
-
-	return name;
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
+	return employee.cn;
 }
 
 /**
@@ -191,7 +193,7 @@ async function getNameByW3ID(W3ID) {
 * @returns {Promise<string>}
 */
 async function getPrimaryUserIdByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 	const userId = employee.primaryuserid;
 
 	return userId.toLowerCase(); // e.g: aromeroh, joe.doe, etc ...
@@ -202,7 +204,7 @@ async function getPrimaryUserIdByW3ID(W3ID) {
 * @returns {Promise<string>}
 */
 async function getUIDByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 	return employee.uid;
 }
 
@@ -210,14 +212,21 @@ async function getUIDByW3ID(W3ID) {
 * @param {String} W3ID
 * @returns {Promise<string>}
 */
+async function getW3IDByUID(UID) {
+	const employee = await bluepagesGetEmployeeByUID(UID);
+	return employee.mail;
+}
+
+/**
+* @param {String} W3ID
+* @returns {Promise<string>}
+*/
 async function getManagerUIDByEmployeeW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 	const serialNumber = employee.managerserialnumber;
 	const countryCode = employee.managercountrycode;
 
-	const managerUid = serialNumber + countryCode;
-
-	return managerUid;
+	return serialNumber + countryCode;
 }
 
 /**
@@ -225,7 +234,7 @@ async function getManagerUIDByEmployeeW3ID(W3ID) {
 * @returns {Promise<Object>}
 */
 async function getEmployeeLocationByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 
 	return {
 		buildingName: employee.buildingname,
@@ -241,7 +250,7 @@ async function getEmployeeLocationByW3ID(W3ID) {
 * @returns {Promise<string>}
 */
 async function getPhoneNumberByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 	return employee.telephonenumber;
 }
 
@@ -250,7 +259,7 @@ async function getPhoneNumberByW3ID(W3ID) {
 * @returns {Promise<string>}
 */
 async function getJobFunctionByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 	return employee.jobresponsibilities;
 }
 
@@ -259,7 +268,7 @@ async function getJobFunctionByW3ID(W3ID) {
 * @returns {Promise<string>}
 */
 async function getEmployeeMobileByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 	return employee.mobile;
 }
 
@@ -268,7 +277,8 @@ async function getEmployeeMobileByW3ID(W3ID) {
 * @returns {Promise<string>}
 */
 async function getGlobalManagerUIDByW3ID(W3ID) {
-	const employee = await ldapGetEmployeeByW3ID(W3ID);
+	const attributes = ['glTeamLead'];
+	const employee = await ldapGetEmployeeByW3ID(W3ID, attributes);
 	if (employee.glTeamLead) {
 		const uid = employee.glTeamLead.split(/,/)[0].split(/=/)[1];
 		return uid;
@@ -290,7 +300,7 @@ async function getPhotoByW3ID(W3ID) {
 * @returns {Promise<Object>}
 */
 async function getEmployeeInfoByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 
 	return {
 		name: employee.cn,
@@ -360,10 +370,10 @@ async function getDirectAndIndirectReportsByDn(dn) {
   // This is only doing the in-country hierarchy; global seems to be much harder
   // It would be nice to have an option to filter out functional and task IDs
   const directReports = await getDirectReportsByDn(dn);
-  const recurser = async person =>
-    [person].concat(await getDirectAndIndirectReportsByDn(person.dn));
+  const recurser = async person => [person].concat(await getDirectAndIndirectReportsByDn(person.dn));
   const recursed = await Promise.all(directReports.map(recurser));
   const flattened = JsonUtils.flatten(recursed);
+
   return flattened;
 }
 
@@ -372,7 +382,7 @@ async function getDirectAndIndirectReportsByDn(dn) {
 * @returns {Promise<boolean>}
 */
 async function isManager(W3ID) {
-	const employee = await bluepagesGetEmployee(W3ID);
+	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 	const flag = getAttrValue('ismanager', employee);
 
 	return (flag === 'Y'); // Y: True, N: False ...
@@ -402,6 +412,7 @@ module.exports = {
 	getEmployeeInfoByUID,
 	getDirectAndIndirectReportsByW3ID,
 	getDirectReportsByW3ID,
+	getW3IDByUID,
 	isManager,
 	employeeExists
 };

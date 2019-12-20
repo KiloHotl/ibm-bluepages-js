@@ -61,16 +61,12 @@ test('the employee exists', async () => {
 
 // Requires real W3IDs because long run LDAP search call
 test('the result is an object containing employee global manager', async () => {
-    //mockApiRequest();
     const data = await bluePages.getGlobalManagerUIDByW3ID('rod.anami@br.ibm.com');
-    console.log(data);
     return expect(data).toBeDefined();
 });
 // Requires real Serial Numbers because long run LDAP search call
 test('the result is an object containing employee info', async () => {
-    //mockApiRequest();
     const data = await bluePages.getEmployeeInfoByUID('092121631');
-    console.log(data);
     return expect(data).toBeDefined();
 });
 

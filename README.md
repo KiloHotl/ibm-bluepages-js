@@ -39,11 +39,12 @@ $ npm uninstall ibm-bluepages-js
     * `getDirectAndIndirectReportsByW3ID(W3ID)`
   * Documentation and other minor fixes.
 
-  * `2.0.10`
-    * Implemented LDAP calls to IBM ED which brings richer results with slow response time.
-    * Added new functions:
-      * `getGlobalManagerUIDByW3ID(W3ID)`
-      * `getEmployeeInfoByUID(UID)`
+* `2.0.10`
+  * Implemented LDAP calls to IBM ED which brings richer results with slow response time.
+  * Added new functions:
+    * `getGlobalManagerUIDByW3ID(W3ID)`
+    * `getEmployeeInfoByUID(UID)`
+    * `getW3IDByUID(UID)`
 
 <h3> Usage </h3>
 
@@ -138,6 +139,7 @@ app.get('/profile', async (req, res) => {
 * `getPhotoByW3ID(W3ID)`
 * `getPrimaryUserIdByW3ID(W3ID)`
 * `getUIDByW3ID(W3ID)`
+* `getW3IDByUID(UID)`
 * `isManager(W3ID)`
 
 
