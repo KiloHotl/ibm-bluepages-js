@@ -5,7 +5,7 @@
 <img alt="NPM" src="https://img.shields.io/npm/l/ibm-bluepages-js">
 <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/aromerohcr/ibm-bluepages-js">
 
-<p> This module provides a set of tools to help <b>IBM</b> Developers working on internal projects to authenticate and access directory data available on <b>IBM Bluepages</b> using Javascript promises.</p>
+<p> This module provides a set of functions to help <b>IBM</b> Developers working on internal projects to authenticate and access directory data available on <b>IBM Bluepages</b> using Javascript promises.</p>
 
 <h3>Requirements (MacOS/Windows)</h3>
 
