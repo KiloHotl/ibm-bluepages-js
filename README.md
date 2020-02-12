@@ -5,7 +5,7 @@
 <img alt="NPM" src="https://img.shields.io/npm/l/ibm-bluepages-js">
 <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/aromerohcr/ibm-bluepages-js">
 
-<p> This module provides a set of tools to help <b>IBM</b> Developers working on internal projects to authenticate and access directory data available on <b>IBM Bluepages</b> using Javascript Async/Await functions (promises).</p>
+<p> This module provides a set of tools to help <b>IBM</b> Developers working on internal projects to authenticate and access directory data available on <b>IBM Bluepages</b> using Javascript promises.</p>
 
 <h3>Requirements (MacOS/Windows)</h3>
 
@@ -37,7 +37,6 @@ $ npm uninstall ibm-bluepages-js
   * Added new functions:
     * `getDirectReportsByW3ID(W3ID)`
     * `getDirectAndIndirectReportsByW3ID(W3ID)`
-  * Documentation and other minor fixes.
 
 * `2.0.10`
   * Implemented LDAP calls to IBM ED which brings richer results with slow response time.
@@ -45,6 +44,7 @@ $ npm uninstall ibm-bluepages-js
     * `getGlobalManagerUIDByW3ID(W3ID)`
     * `getEmployeeInfoByUID(UID)`
     * `getW3IDByUID(UID)`
+  * Refactoring of functions and other minor fixes.
 
 <h3> Usage </h3>
 
@@ -131,11 +131,11 @@ app.get('/profile', async (req, res) => {
 * `getEmployeeInfoByW3ID(W3ID)`
 * `getEmployeeLocationByW3ID(W3ID)`
 * `getEmployeeMobileByW3ID(W3ID)`
+* `getEmployeePhoneByW3ID(W3ID)`
 * `getGlobalManagerUIDByW3ID(W3ID)`
 * `getJobFunctionByW3ID(W3ID)`
 * `getManagerUIDByEmployeeW3ID(W3ID)`
 * `getNameByW3ID(W3ID)`
-* `getPhoneNumberByW3ID(W3ID)`
 * `getPhotoByW3ID(W3ID)`
 * `getPrimaryUserIdByW3ID(W3ID)`
 * `getUIDByW3ID(W3ID)`
@@ -152,8 +152,9 @@ app.get('/profile', async (req, res) => {
 <h3> Contributing </h3>
 If you want to contribute to the module and make it better, your help is very welcome. You can do so submitting a <b>Pull Request</b>.
 
-<h3> Contact Email / Slack </h3>
-Please use this email for contact if you have questions: <b>aromeroh@cr.ibm.com</b>
+<h3> Authors </h3>
+Written by Andres Romero <aromeroh@cr.ibm.com>, August 2019.
+Contributors: Rod Anami <rod.anami@br.ibm.com>, Holly Cummins <cumminsh@uk.ibm.com>
 
 <h3> License </h3>
 This project is licensed under the IBM Public License.

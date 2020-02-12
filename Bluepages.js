@@ -192,17 +192,6 @@ async function getNameByW3ID(W3ID) {
 * @param {String} W3ID
 * @returns {Promise<string>}
 */
-async function getPrimaryUserIdByW3ID(W3ID) {
-	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
-	const userId = employee.primaryuserid;
-
-	return userId.toLowerCase(); // e.g: aromeroh, joe.doe, etc ...
-}
-
-/**
-* @param {String} W3ID
-* @returns {Promise<string>}
-*/
 async function getUIDByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 	return employee.uid;
@@ -249,7 +238,7 @@ async function getEmployeeLocationByW3ID(W3ID) {
 * @param {String} W3ID
 * @returns {Promise<string>}
 */
-async function getPhoneNumberByW3ID(W3ID) {
+async function getEmployeePhoneByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 	return employee.telephonenumber;
 }
@@ -304,11 +293,16 @@ async function getEmployeeInfoByW3ID(W3ID) {
 
 	return {
 		name: employee.cn,
-		mail: employee.mail,
+		title: employee.title,
 		photo: urls.photo + `/${W3ID}?def=avatar`,
-		jobFunction: employee.jobresponsibilities,
+		mail: employee.mail,
 		telephoneNumber: employee.telephonenumber,
-		buildingName: employee.buildingname
+		serialNumber: employee.serialNumber,
+		contryCode: employee.employeeCountryCode,
+		division: employee.div,
+		department: employee.dept,
+		callupName: employee.callupName,
+		type: employee.employeeType,
 	};
 }
 
@@ -322,13 +316,15 @@ async function getEmployeeInfoByUID(UID) {
 	return {
 		name: employee.cn,
 		title: employee.title,
+		photo: urls.photo + `/${UID}?def=avatar`,
+		mail: employee.mail,
+		telephoneNumber: employee.telephonenumber,
+		serialNumber: employee.serialNumber,
 		contryCode: employee.employeeCountryCode,
-		type: employee.employeeType,
 		division: employee.div,
 		department: employee.dept,
 		callupName: employee.callupName,
-		mail: employee.mail,
-		serialNumber: employee.serialNumber
+		type: employee.employeeType,
 	};
 }
 
@@ -399,13 +395,12 @@ async function employeeExists(W3ID) {
 module.exports = {
 	authenticate,
 	getNameByW3ID,
-	getPrimaryUserIdByW3ID,
 	getUIDByW3ID,
 	getManagerUIDByEmployeeW3ID,
 	getGlobalManagerUIDByW3ID,
 	getEmployeeLocationByW3ID,
 	getEmployeeMobileByW3ID,
-	getPhoneNumberByW3ID,
+	getEmployeePhoneByW3ID,
 	getJobFunctionByW3ID,
 	getPhotoByW3ID,
 	getEmployeeInfoByW3ID,

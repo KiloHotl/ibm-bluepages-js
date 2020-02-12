@@ -3,16 +3,6 @@ const fetch = require('node-fetch');
 const bluePages = require('../Bluepages');
 const urls = require('../URLs');
 
-test('the Bluepages service status is 200 (OK)', async () => {
-	const status = await fetch(urls.api).then(res => res.status);
-	return expect(status).toBe(200);
-});
-
-test('the result is the full name of the employee', async () => {
-	const data = await bluePages.getNameByW3ID('aromeroh@cr.ibm.com');
-	return expect(data).toBe('Andres Alexander Romero Hernandez');
-});
-
 test('the result is the W3ID of the employee', async () => {
 	const data = await bluePages.getW3IDByUID('045409659');
 	return expect(data).toBe('aromeroh@cr.ibm.com');
@@ -36,11 +26,6 @@ test('the result is an object containing employee mobile', async () => {
 test('the result is an object containing employee location including the office', async () => {
 	const data = await bluePages.getEmployeeLocationByW3ID('aromeroh@cr.ibm.com');
 	return expect(data).toHaveProperty('workLocation');
-});
-
-test('the result is the primary user ID of the employee', async () => {
-	const data = await bluePages.getPrimaryUserIdByW3ID('aromeroh@cr.ibm.com');
-	return expect(data).toBe('aromeroh');
 });
 
 test('the employee exists', async () => {

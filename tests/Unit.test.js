@@ -37,19 +37,11 @@ test('the result is an object containing employee mobile', async () => {
     return expect(data).toBe('notarealnumber');
 });
 
-
 test('the result is an object containing employee location including the office', async () => {
     mockApiRequest();
     const data = await bluePages.getEmployeeLocationByW3ID('joe.doe@ibm.com');
 
     return expect(data).toHaveProperty('workLocation');
-});
-
-test('the result is the primary user ID of the employee', async () => {
-    mockApiRequest();
-    const data = await bluePages.getPrimaryUserIdByW3ID('joe.doe@ibm.com');
-
-    return expect(data).toBe('joe.doe');
 });
 
 test('the employee exists', async () => {
