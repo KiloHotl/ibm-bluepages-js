@@ -1,7 +1,7 @@
 {
   "name": "ibm-bluepages-js",
   "version": "2.0.11",
-  "description": "A Nodejs module to interact with the IBM Bluepages API.",
+  "description": "A node.js module to interact with the IBM Bluepages API.",
   "main": "Bluepages.js",
   "scripts": {
     "test:int": "jest tests/Integration.test.js",

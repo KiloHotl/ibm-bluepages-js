@@ -4,17 +4,17 @@ const bluePages = require('../Bluepages');
 const urls = require('../URLs');
 
 test('the result is the W3ID of the employee', async () => {
-	const data = await bluePages.getW3IDByUID('045409659');
-	return expect(data).toBe('aromeroh@cr.ibm.com');
+	const data = await bluePages.getW3IDByUID('092121631');
+	return expect(data).toEqual(["rod.anami@br.ibm.com", "ranami@br.ibm.com"]);
 });
 
 test('the result is an object containing employee information', async () => {
-	const data = await bluePages.getEmployeeInfoByW3ID('aromeroh@cr.ibm.com');
+	const data = await bluePages.getEmployeeInfoByW3ID('rod.anami@br.ibm.com');
 	return expect(data).toBeDefined();
 });
 
 test('the result is an object containing employee location', async () => {
-	const data = await bluePages.getEmployeeLocationByW3ID('aromeroh@cr.ibm.com');
+	const data = await bluePages.getEmployeeLocationByW3ID('rod.anami@br.ibm.com');
 	return expect(data).toBeDefined();
 });
 
@@ -24,12 +24,12 @@ test('the result is an object containing employee mobile', async () => {
 });
 
 test('the result is an object containing employee location including the office', async () => {
-	const data = await bluePages.getEmployeeLocationByW3ID('aromeroh@cr.ibm.com');
+	const data = await bluePages.getEmployeeLocationByW3ID('rod.anami@br.ibm.com');
 	return expect(data).toHaveProperty('workLocation');
 });
 
 test('the employee exists', async () => {
-	const success = await bluePages.employeeExists('aromeroh@cr.ibm.com');
+	const success = await bluePages.employeeExists('rod.anami@br.ibm.com');
 	return expect(success).toBe(true);
 });
 
@@ -39,8 +39,8 @@ test('the employee does not exists', async () => {
 });
 
 test('the result is a URL with a employee\'s JPG profile picture', async () => {
-	const data = await bluePages.getPhotoByW3ID('aromeroh@cr.ibm.com');
-	return expect(data).toBe('https://w3-services1.w3-969.ibm.com/myw3/unified-profile-photo/v1/image/aromeroh@cr.ibm.com?def=avatar');
+	const data = await bluePages.getPhotoByW3ID('rod.anami@br.ibm.com');
+	return expect(data).toBe('https://w3-services1.w3-969.ibm.com/myw3/unified-profile-photo/v1/image/rod.anami@br.ibm.com?def=avatar');
 });
 
 test("the direct reports are populated", async () => {
@@ -79,6 +79,6 @@ test("the direct and indirect reports are populated",
 
 test('the login is successful', async () => {
 	// This is a weak test, (since we can't use a correct password) that catches compilation errors
-	const success = await bluePages.authenticate("aromeroh@cr.ibm.com",	"nottherightpassword");
+	const success = await bluePages.authenticate("rod.anami@br.ibm.com",	"nottherightpassword");
 	return expect(success).toBe(false);
 });
