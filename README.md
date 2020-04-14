@@ -45,6 +45,10 @@ $ npm uninstall ibm-bluepages-js
     * `getEmployeeInfoByUID(UID)`
     * `getW3IDByUID(UID)`
   * Refactoring of functions and other minor fixes.
+  
+* `2.0.11`
+ * Minor security fix on dependency
+   * Bump acorn from 5.7.3 to 5.7.4
 
 <h3> Usage </h3>
 
