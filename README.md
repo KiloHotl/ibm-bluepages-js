@@ -47,8 +47,11 @@ $ npm uninstall ibm-bluepages-js
   * Refactoring of functions and other minor fixes.
   
 * `2.0.11`
- * Minor security fix on dependency
-   * Bump acorn from 5.7.3 to 5.7.4
+  * Major security vulnerability fix on inner dependency
+    * Minimist
+  * Minor security vulnerability fix on inner dependency
+    * Bump acorn from 5.7.3 to 5.7.4
+  * Refactored test suite  
 
 <h3> Usage </h3>
 
