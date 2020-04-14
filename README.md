@@ -28,16 +28,13 @@ $ npm uninstall ibm-bluepages-js
 
 <h3> Change Log </h3>
 
-* `2.0.8`
-  * Fixed the problem caused by DTrace dependency of ldapjs on MacOS Catalina devices.
-  * Added new function:
-    * `getEmployeeMobileByW3ID(W3ID)`
-* `2.0.9`
-  * Removed old XML dependencies, functions are now implemented to work fully on JSON. (This change is minor and should not affect any exisintg code implementations.
-  * Added new functions:
-    * `getDirectReportsByW3ID(W3ID)`
-    * `getDirectAndIndirectReportsByW3ID(W3ID)`
-
+* `2.0.11`
+  * Major security vulnerability fix on inner dependency.
+    * Minimist
+  * Minor security vulnerability fix on inner dependency.
+    * Bump acorn from 5.7.3 to 5.7.4
+  * Refactored test suite and updated jest.
+  
 * `2.0.10`
   * Implemented LDAP calls to IBM ED which brings richer results with slow response time.
   * Added new functions:
@@ -46,12 +43,15 @@ $ npm uninstall ibm-bluepages-js
     * `getW3IDByUID(UID)`
   * Refactoring of functions and other minor fixes.
   
-* `2.0.11`
-  * Major security vulnerability fix on inner dependency
-    * Minimist
-  * Minor security vulnerability fix on inner dependency
-    * Bump acorn from 5.7.3 to 5.7.4
-  * Refactored test suite  
+* `2.0.9`
+  * Removed old XML dependencies, functions are now implemented to work fully on JSON. (This change is minor and should not affect any exisintg code implementations.
+  * Added new functions:
+    * `getDirectReportsByW3ID(W3ID)`
+    * `getDirectAndIndirectReportsByW3ID(W3ID)`
+* `2.0.8`
+  * Fixed the problem caused by DTrace dependency of ldapjs on MacOS Catalina devices.
+  * Added new function:
+    * `getEmployeeMobileByW3ID(W3ID)`
 
 <h3> Usage </h3>
 
