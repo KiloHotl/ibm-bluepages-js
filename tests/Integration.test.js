@@ -5,7 +5,23 @@ const urls = require('../URLs');
 
 test('the result is the W3ID of the employee', async () => {
 	const data = await bluePages.getW3IDByUID('092121631');
-	return expect(data).toEqual(["rod.anami@br.ibm.com", "ranami@br.ibm.com"]);
+	const expected = ["rod.anami@br.ibm.com", "ranami@br.ibm.com"];
+	return expect(data).toEqual(expect.arrayContaining(expected));
+});
+
+test('the result is an object containing employee slack information', async () => {
+	const data = await bluePages.getSlackInfoByW3ID('rod.anami@br.ibm.com');
+	const expected = {
+		slackId: 'W3G2D4732',
+		slackUser: 'rod.anami'
+	};
+	return expect(data).toEqual(expect.objectContaining(expected));
+});
+
+test('the result is an object containing employee conference information', async () => {
+	const data = await bluePages.getConferenceInfoByW3ID('rod.anami@br.ibm.com');
+	const expected = "https://ibm.webex.com/meet/rod.anami";
+	return expect(data).toEqual(expected);
 });
 
 test('the result is an object containing employee information', async () => {

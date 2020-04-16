@@ -6,7 +6,6 @@
 */
 const fetch = require('node-fetch');
 const LDAP = require('ldapjs');
-
 const JsonUtils = require('./utils/JsonUtils');
 const urls = require('./URLs');
 
@@ -16,6 +15,19 @@ async function bluepagesGetEmployeeByW3ID(W3ID) {
 	return fetch(urls.api + `?ibmperson/mail=${W3ID}.list/byjson`)
 		.then(res => res.json())
 		.then(json => JsonUtils.objectiseOne(json))
+		.catch(error => console.error(`Error: ${error}`));
+}
+
+async function expBluepagesGetEmployeeByW3ID(W3ID) {
+	return fetch(urls.apiv2 + `?emails=${W3ID}`)
+		.then(res => res.json())
+		.then(json => {
+				if (json[0]) {
+					return json[0].content.profile;
+				} else {
+					return null;
+				}
+		})
 		.catch(error => console.error(`Error: ${error}`));
 }
 
@@ -167,7 +179,7 @@ async function ldapGetEmployeeByUID(UID, attributes=[]) {
 						resolve(null);
 					}
 					});
-			  
+
 		      	res.on('error', function(resErr) {
 		       	 	CLIENT.unbind();
 					reject(resErr);
@@ -275,6 +287,36 @@ async function getGlobalManagerUIDByW3ID(W3ID) {
 		return null;
 	}
 }
+
+/**
+* @param {String} W3ID
+* @returns {Promise<string>}
+*/
+async function getSlackInfoByW3ID(W3ID) {
+	const employee = await expBluepagesGetEmployeeByW3ID(W3ID);
+	if (employee.preferredSlackId && employee.preferredSlackUsername) {
+		return {
+			slackId: employee.preferredSlackId,
+			slackUser: employee.preferredSlackUsername
+		}
+	} else {
+		return null;
+	}
+}
+
+/**
+* @param {String} W3ID
+* @returns {Promise<string>}
+*/
+async function getConferenceInfoByW3ID(W3ID) {
+	const employee = await expBluepagesGetEmployeeByW3ID(W3ID);
+	if (employee.conferenceUrl) {
+		return employee.conferenceUrl;
+	} else {
+		return null;
+	}
+}
+
 
 /**
 * @param {String} W3ID
@@ -401,6 +443,8 @@ module.exports = {
 	getEmployeeLocationByW3ID,
 	getEmployeeMobileByW3ID,
 	getEmployeePhoneByW3ID,
+	getConferenceInfoByW3ID,
+	getSlackInfoByW3ID,
 	getJobFunctionByW3ID,
 	getPhotoByW3ID,
 	getEmployeeInfoByW3ID,

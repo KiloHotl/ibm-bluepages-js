@@ -54,8 +54,21 @@ test('the employee exists', async () => {
 // Requires real W3IDs because long run LDAP search call
 test('the result is an object containing employee global manager', async () => {
     const data = await bluePages.getGlobalManagerUIDByW3ID('rod.anami@br.ibm.com');
-    return expect(data).toBeDefined();
+    return expect(data).not.toBeNull();
 });
+
+// This is an experimental Bluepages API V2
+test('The result is not null object containing slack information', async () => {
+    const data = await bluePages.getSlackInfoByW3ID('rod.anami@br.ibm.com');
+    return expect(data).not.toBeNull();
+});
+
+// This is an experimental Bluepages API V2
+test('The result is not null object containing conference information', async () => {
+    const data = await bluePages.getConferenceInfoByW3ID('rod.anami@br.ibm.com');
+    return expect(data).not.toBeNull();
+});
+
 // Requires real Serial Numbers because long run LDAP search call
 test('the result is an object containing employee info', async () => {
     const data = await bluePages.getEmployeeInfoByUID('092121631');

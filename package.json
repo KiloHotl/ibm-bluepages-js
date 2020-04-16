@@ -17,7 +17,8 @@
     "nodejs",
     "promises",
     "api",
-    "ldap"
+    "ldap",
+    "async"
   ],
   "author": "Andres Romero (aromeroh@cr.ibm.com)",
   "contributors": [
