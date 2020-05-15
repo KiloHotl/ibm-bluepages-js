@@ -1,9 +1,9 @@
 <h1> IBM Bluepages JS </h1>
-<img alt="David" src="https://img.shields.io/david/aromerohcr/ibm-bluepages-js">
-<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/aromerohcr/ibm-bluepages-js">
+<img alt="David" src="https://img.shields.io/david/rod4n4m1/ibm-bluepages-js">
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/rod4n4m1/ibm-bluepages-js">
 <img alt="npm" src="https://img.shields.io/npm/dm/ibm-bluepages-js">
 <img alt="NPM" src="https://img.shields.io/npm/l/ibm-bluepages-js">
-<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/aromerohcr/ibm-bluepages-js">
+<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/rod4n4m1/ibm-bluepages-js">
 
 <p> This module provides a set of functions to help <b>IBM</b> Developers working on internal projects to authenticate and access directory data available on <b>IBM Bluepages</b> using Javascript promises.</p>
 
@@ -12,7 +12,7 @@
 * Node 10.x / npm v6.x
 * Python version 2.7
 
-<b>Note:</b> Depending on your Windows setup <a href="https://www.npmjs.com/package/windows-build-tools">windows-build-tools</a> may need to be installed first. Also, for MacOS users, you should have xcode-select or entire Xcode App installed.
+<b>Note:</b> Depending on your Windows setup <a href="https://www.npmjs.com/package/windows-build-tools">windows-build-tools</a> may need to be installed first. Also, for MacOS users, you should have <b>xcode-select</b> or entire Xcode App installed.
 
 <h3> Install </h3>
 
@@ -34,7 +34,7 @@ $ npm uninstall ibm-bluepages-js
   * Minor security vulnerability fix on inner dependency.
     * Bump acorn from 5.7.3 to 5.7.4
   * Refactored test suite and updated jest.
-  
+
 * `2.0.10`
   * Implemented LDAP calls to IBM ED which brings richer results with slow response time.
   * Added new functions:
@@ -42,7 +42,7 @@ $ npm uninstall ibm-bluepages-js
     * `getEmployeeInfoByUID(UID)`
     * `getW3IDByUID(UID)`
   * Refactoring of functions and other minor fixes.
-  
+
 * `2.0.9`
   * Removed old XML dependencies, functions are now implemented to work fully on JSON. (This change is minor and should not affect any exisintg code implementations.
   * Added new functions:

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 International Business Machines Corporation and others. All Rights Reserved.
+ * Copyright (C) 2020 International Business Machines Corporation and others. All Rights Reserved.
  * The accompanying program is provided under the terms of the IBM public license ("agreement").
  * Written by Andres Romero <aromeroh@cr.ibm.com>, August 2019.
  * Contributors: Rod Anami <rod.anami@br.ibm.com>, Holly Cummins <cumminsh@uk.ibm.com>
