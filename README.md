@@ -13,7 +13,7 @@
 * npm 6.x
 * Python version 2.7
 
-<b>Note:</b> Depending on your Windows setup <a href="https://www.npmjs.com/package/windows-build-tools">windows-build-tools</a> may need to be installed first. Also, for MacOS users, you should have <b>xcode-select</b> or entire Xcode App installed.
+<b>Note:</b> Depending on your Windows setup <a href="https://www.npmjs.com/package/windows-build-tools">windows-build-tools</a> may need to be installed first. Also, for MacOS users, you should have <b>xcode-select</b> or entire Xcode App package installed.
 
 <h3> Install </h3>
 
@@ -30,8 +30,9 @@ $ npm uninstall ibm-bluepages-js
 <h3> Change Log </h3>
 
 * `2.0.12`
-  * Updated to functions due to changes on SLAPHAPI
+  * Updates to functions due to changes on IBM SLAPHAPI
   * Added experimental function `getSlackInfoByW3ID`
+  * Added experimental function `getConferenceInfoByW3ID`
 
 * `2.0.11`
   * Major security vulnerability fix on inner dependency.
@@ -53,10 +54,7 @@ $ npm uninstall ibm-bluepages-js
   * Added new functions:
     * `getDirectReportsByW3ID(W3ID)`
     * `getDirectAndIndirectReportsByW3ID(W3ID)`
-* `2.0.8`
-  * Fixed the problem caused by DTrace dependency of ldapjs on MacOS Catalina devices.
-  * Added new function:
-    * `getEmployeeMobileByW3ID(W3ID)`
+
 
 <h3> Usage </h3>
 
@@ -69,7 +67,7 @@ const bluePages = require('ibm-bluepages-js');
 async function doSomethingBasedOnLocation() {
   let location = await bluePages.getEmployeeLocationByW3ID('rod.anami@br.ibm.com');
 
-  if(location.countryAlphaCode === 'BR') {
+  if(location.countryAlphaCode === 'br') {
     // if true code
   } else {
     // if else code
@@ -168,6 +166,7 @@ If you want to contribute to the module and make it better, your help is very we
 
 <h3> Authors </h3>
 Written by Andres Romero <aromeroh@cr.ibm.com>, August 2019.
+Maintainer: Rod Anami <rod.anami@br.ibm.com>
 Contributors: Rod Anami <rod.anami@br.ibm.com>, Holly Cummins <cumminsh@uk.ibm.com>
 
 <h3> License </h3>
