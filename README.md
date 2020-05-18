@@ -9,7 +9,8 @@
 
 <h3>Requirements (MacOS/Windows)</h3>
 
-* Node 10.x / npm v6.x
+* Node 10.x
+* npm 6.x
 * Python version 2.7
 
 <b>Note:</b> Depending on your Windows setup <a href="https://www.npmjs.com/package/windows-build-tools">windows-build-tools</a> may need to be installed first. Also, for MacOS users, you should have <b>xcode-select</b> or entire Xcode App installed.
@@ -27,6 +28,10 @@ $ npm uninstall ibm-bluepages-js
 ```
 
 <h3> Change Log </h3>
+
+* `2.0.12`
+  * Updated to functions due to changes on SLAPHAPI
+  * Added experimental function `getSlackInfoByW3ID`
 
 * `2.0.11`
   * Major security vulnerability fix on inner dependency.
@@ -62,9 +67,9 @@ $ npm uninstall ibm-bluepages-js
 const bluePages = require('ibm-bluepages-js');
 
 async function doSomethingBasedOnLocation() {
-  let location = await bluePages.getEmployeeLocationByW3ID('aromeroh@cr.ibm.com');
+  let location = await bluePages.getEmployeeLocationByW3ID('rod.anami@br.ibm.com');
 
-  if(location.countryAlphaCode === 'CR') {
+  if(location.countryAlphaCode === 'BR') {
     // if true code
   } else {
     // if else code
@@ -148,6 +153,8 @@ app.get('/profile', async (req, res) => {
 * `getUIDByW3ID(W3ID)`
 * `getW3IDByUID(UID)`
 * `isManager(W3ID)`
+* `getSlackInfoByW3ID(W3ID)` - experimental
+* `getConferenceInfoByW3ID(W3ID)` - experimental
 
 
 <h3> Features that make this module secure </h3>
@@ -165,4 +172,4 @@ Contributors: Rod Anami <rod.anami@br.ibm.com>, Holly Cummins <cumminsh@uk.ibm.c
 
 <h3> License </h3>
 This project is licensed under the IBM Public License.
-Copyright (c) 2019 IBM
+Copyright (c) 2020 IBM

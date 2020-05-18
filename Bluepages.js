@@ -335,16 +335,16 @@ async function getEmployeeInfoByW3ID(W3ID) {
 
 	return {
 		name: employee.cn,
-		title: employee.title,
+		title: employee.jobresponsibilities,
 		photo: urls.photo + `/${W3ID}?def=avatar`,
 		mail: employee.mail,
 		telephoneNumber: employee.telephonenumber,
-		serialNumber: employee.serialNumber,
-		contryCode: employee.employeeCountryCode,
+		serialNumber: employee.serialnumber,
+		contryCode: employee.employeecountrycode,
 		division: employee.div,
 		department: employee.dept,
-		callupName: employee.callupName,
-		type: employee.employeeType,
+		callupName: employee.callupname,
+		type: employee.employeetype,
 	};
 }
 
@@ -354,13 +354,14 @@ async function getEmployeeInfoByW3ID(W3ID) {
 */
 async function getEmployeeInfoByUID(UID) {
 	const employee = await ldapGetEmployeeByUID(UID);
-
+	let name = Array.isArray(employee.cn)? employee.cn[0] : employee.cn;
+	let email = Array.isArray(employee.mail)? employee.mail[0] : employee.mail;
 	return {
-		name: employee.cn,
-		title: employee.title,
+		name: name,
+		title: employee.jobResponsibilities,
 		photo: urls.photo + `/${UID}?def=avatar`,
-		mail: employee.mail,
-		telephoneNumber: employee.telephonenumber,
+		mail: email,
+		telephoneNumber: employee.telephoneNumber,
 		serialNumber: employee.serialNumber,
 		contryCode: employee.employeeCountryCode,
 		division: employee.div,

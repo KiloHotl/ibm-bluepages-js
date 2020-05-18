@@ -13,13 +13,13 @@ test('the result is the full name of the employee', async () => {
     mockApiRequest();
     const data = await bluePages.getNameByW3ID('joe.doe@ibm.com');
 
-	return expect(data).toBe('Joe Doe');
+	return expect(data).toEqual(["John Smith", "Joe Doe", "The Guy"]);
 });
 
 test('the result is an object containing employee information', async () => {
     mockApiRequest();
     const data = await bluePages.getEmployeeInfoByW3ID('joe.doe@ibm.com');
-
+    console.log(data);
     return expect(data).toBeDefined();
 });
 
@@ -34,7 +34,7 @@ test('the result is an object containing employee mobile', async () => {
     mockApiRequest();
     const data = await bluePages.getEmployeeMobileByW3ID('joe.doe@ibm.com');
 
-    return expect(data).toBe('notarealnumber');
+    return expect(data).toBe('55-1199990000');
 });
 
 test('the result is an object containing employee location including the office', async () => {
@@ -72,6 +72,7 @@ test('The result is not null object containing conference information', async ()
 // Requires real Serial Numbers because long run LDAP search call
 test('the result is an object containing employee info', async () => {
     const data = await bluePages.getEmployeeInfoByUID('092121631');
+    console.log(data);
     return expect(data).toBeDefined();
 });
 
