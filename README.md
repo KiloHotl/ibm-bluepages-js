@@ -29,7 +29,7 @@ $ npm uninstall ibm-bluepages-js
 
 <h3> Change Log </h3>
 
-* `2.0.13`
+* `2.0.14`
   * Fixed lodash < 4.17.19 security vulnerability
 
 * `2.0.12`
