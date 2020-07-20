@@ -29,6 +29,9 @@ $ npm uninstall ibm-bluepages-js
 
 <h3> Change Log </h3>
 
+* `2.0.13`
+  * Fixed lodash < 4.17.19 security vulnerability
+
 * `2.0.12`
   * Updates to functions due to changes on IBM SLAPHAPI
   * Added experimental function `getSlackInfoByW3ID`
