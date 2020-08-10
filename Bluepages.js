@@ -44,6 +44,12 @@ async function bluePagesReportsQueryByDn(dn) {
 		.catch(error => console.error(`Error: ${error}`));
 }
 
+async function bluePagesGlobalReportsQueryByDn(dn) {
+	return fetch(urls.api + `?ibmperson/glTeamLead=${dn}.list/byjson`)
+		.then(res => res.json())
+		.catch(error => console.error(`Error: ${error}`));
+}
+
 async function getDnByW3ID(W3ID) {
 	const employee = await bluepagesGetEmployeeByW3ID(W3ID);
 
@@ -400,6 +406,31 @@ async function getDirectReportsByDn(dn) {
 * @param {String} W3ID
 * @returns {Promise<Array<Object>>}
 */
+async function getDirectGlobalReportsByW3ID(W3ID) {
+	const dn = await getDnByW3ID(W3ID);
+	return await getDirectGlobalReportsByDn(dn);
+}
+
+async function getDirectGlobalReportsByDn(dn) {
+  const allReports = await bluePagesGlobalReportsQueryByDn(dn);
+  const json = JsonUtils.objectiseMany(allReports);
+
+  // Extract just a few fields of interest
+  return json.map(person => {
+    return {
+      name: person.cn,
+      dn: `uid=${person.uid},c=${person.c},ou=${person.ou},o=${person.o}`,
+      uid: person.uid,
+      mail: person.mail,
+      workLocation: person.workloc
+    };
+  });
+}
+
+/**
+* @param {String} W3ID
+* @returns {Promise<Array<Object>>}
+*/
 async function getDirectAndIndirectReportsByW3ID(W3ID) {
   const dn = await getDnByW3ID(W3ID);
   return await getDirectAndIndirectReportsByDn(dn);
@@ -452,6 +483,7 @@ module.exports = {
 	getEmployeeInfoByUID,
 	getDirectAndIndirectReportsByW3ID,
 	getDirectReportsByW3ID,
+	getDirectGlobalReportsByW3ID,
 	getW3IDByUID,
 	isManager,
 	employeeExists

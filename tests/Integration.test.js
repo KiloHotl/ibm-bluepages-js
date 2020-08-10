@@ -100,6 +100,21 @@ test("the direct and indirect reports are populated",
 	30 * 1000
 );
 
+test("the direct global reports are populated", async () => {
+	const data = await bluePages.getDirectGlobalReportsByW3ID("cimmino@ar.ibm.com");
+
+	// We expect this manager to have more than 2 reports, and less than 50
+	expect(data).toBeInstanceOf(Array);
+	expect(data.length).toBeGreaterThan(2);
+	expect(data.length).toBeLessThan(10);
+
+	// Some sensible assertions about what fields are populated
+	const report = data[2];
+	expect(report).toHaveProperty("uid");
+	expect(report).toHaveProperty("name");
+	expect(report).toHaveProperty("mail");
+});
+
 test('the login is successful', async () => {
 	// This is a weak test, (since we can't use a correct password) that catches compilation errors
 	const success = await bluePages.authenticate("rod.anami@br.ibm.com",	"nottherightpassword");
