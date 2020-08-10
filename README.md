@@ -38,7 +38,7 @@ This shows only the latest 5 versions.
   * Improved `README.md` organization and documentation
 
 * `2.0.14`
-  * Fixed lodash < 4.17.19 security vulnerability
+  * Fixed lodash < `4.17.19` security vulnerability
 
 * `2.0.12`
   * Updates to functions due to changes on IBM SLAPHAPI
@@ -49,7 +49,7 @@ This shows only the latest 5 versions.
   * Major security vulnerability fix on inner dependency.
     * Minimist
   * Minor security vulnerability fix on inner dependency.
-    * Bump acorn from 5.7.3 to 5.7.4
+    * Bump acorn from `5.7.3` to `5.7.4`
   * Refactored test suite and updated jest.
 
 * `2.0.10`
@@ -179,7 +179,7 @@ app.get('/profile', async (req, res) => {
 */
 ```
 
-**Note:** Uses the experimental API
+**Note:** it uses the new experimental API
 
 * getDirectReportsByW3ID(W3ID)
 
@@ -298,7 +298,7 @@ app.get('/profile', async (req, res) => {
 */
 ```
 
-**Note:** Uses the experimental API
+**Note:** it uses the new experimental API
 
 * getUIDByW3ID(W3ID)
 
@@ -331,10 +331,11 @@ app.get('/profile', async (req, res) => {
 
 ### Package security
 
-* It's designed to only work within the IBM Blue Zone (Secure Network).
-* It's designed to use LDAPS as the main authentication method which makes traffic confidential and secure by using Transport Secure Layer (TSL).
+* It's designed to only work within the IBM Blue Zone network (Secure Network).
+* It's designed to use LDAPS as the main authentication method which makes traffic confidential and secure by using Transport Layer Security (TLS).
 
 ### Contributing
+
 If you want to contribute to the module and make it better, your help is very welcome. You can do so submitting a **Pull Request**.
 
 ### Authors
@@ -344,5 +345,6 @@ If you want to contribute to the module and make it better, your help is very we
 * Contributors: Rod Anami <rod.anami@br.ibm.com>, Holly Cummins <cumminsh@uk.ibm.com>
 
 ### License
+
 This project is licensed under the [IBM Public License 1.0](https://opensource.org/licenses/IPL-1.0).
 Copyright (c) 2020 IBM
