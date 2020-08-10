@@ -149,7 +149,7 @@ app.get('/profile', async (req, res) => {
 * `getW3IDByUID(UID)`
 * `isManager(W3ID)`
 
-### Function interfaces
+### Functions' interfaces
 
 * authenticate(W3ID, password)
 
