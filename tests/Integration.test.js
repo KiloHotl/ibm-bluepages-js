@@ -7,7 +7,7 @@ const urls = require('../URLs');
 test('the result is an object containing employee global manager', async () => {
     const data = await bluePages.getGlobalManagerUIDByW3ID('rod.anami@br.ibm.com');
 		//console.log(data);
-    return expect(data).toEqual('022589613');
+    return expect(data).toEqual('070740866');
 });
 
 test('the result is the W3ID of the employee', async () => {
@@ -101,7 +101,7 @@ test("the direct and indirect reports are populated",
 );
 
 test("the direct global reports are populated", async () => {
-	const data = await bluePages.getDirectGlobalReportsByW3ID("cimmino@ar.ibm.com");
+	const data = await bluePages.getDirectGlobalReportsByW3ID("alan_skinner@uk.ibm.com");
 
 	// We expect this manager to have more than 2 reports, and less than 50
 	expect(data).toBeInstanceOf(Array);

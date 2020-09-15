@@ -1,6 +1,6 @@
 {
   "name": "ibm-bluepages-js",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A node.js module to interact with the IBM Bluepages API.",
   "main": "Bluepages.js",
   "scripts": {
@@ -32,7 +32,7 @@
   "homepage": "https://github.com/rod4n4m1/ibm-bluepages-js#readme",
   "dependencies": {
     "ldapjs": "^2.1.1",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "jest": "^26.3.0",
