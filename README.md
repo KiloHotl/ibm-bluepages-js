@@ -10,8 +10,11 @@ This module provides a set of functions to help **IBM** Developers working on in
 
 ## Requirements (MacOS/Windows)
 
-* Node 10.x (12.x recommended)
-* npm 6.x
+* Node.js
+  Minimum: v10.x
+  Recommended: **v12.x**
+* npm
+  Tested on: **v6.14.x**
 * Python version 2.7
 
 **Note:** Depending on your Windows setup [windows-build-tools](https://www.npmjs.com/package/windows-build-tools) may need to be installed first. Also, for MacOS users, you should have **xcode-select** or entire **Xcode App** package installed.
@@ -31,6 +34,9 @@ $ npm uninstall ibm-bluepages-js
 ## Change Log
 
 This shows only the latest 5 versions.
+
+* `2.1.2`
+  * Upgraded dependencies and dev environment
 
 * `2.1.1`
   * Updated `node-fetch` to 2.6.1 (Security issue)
