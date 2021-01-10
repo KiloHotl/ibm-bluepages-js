@@ -11,11 +11,12 @@ This module provides a set of functions to help **IBM** Developers working on in
 ## Requirements (MacOS/Windows)
 
 * Node.js
-  Minimum: v10.x
-  Recommended: **v12.x**
+  * Minimum: v10.x
+  * Recommended: **v12.x**
 * npm
-  Tested on: **v6.14.x**
-* Python version 2.7
+  * Tested on: **v6.14.x**
+* Python
+  * Tested on: **v2.7**
 
 **Note:** Depending on your Windows setup [windows-build-tools](https://www.npmjs.com/package/windows-build-tools) may need to be installed first. Also, for MacOS users, you should have **xcode-select** or entire **Xcode App** package installed.
 
